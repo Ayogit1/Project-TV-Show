@@ -1,59 +1,69 @@
+const allEpisodes = getAllEpisodes();
+
 function setup() {
-  const episodes = getAllEpisodes();
-  renderEpisodes(episodes);
+  renderEpisodes(allEpisodes);
+  renderAttribution();
 }
 
 function renderEpisodes(episodes) {
-  const root = document.getElementById("root");
-  root.innerHTML = "";
+  const rootEl = document.getElementById("root");
+  rootEl.textContent = "";
 
-  // Layout styling (no CSS file needed)
-  root.style.display = "flex";
-  root.style.flexWrap = "wrap";
-  root.style.gap = "20px";
-  root.style.padding = "20px";
-  root.style.color = "black"; // make all text black
-
-  episodes.forEach(ep => {
-    const season = String(ep.season).padStart(2, "0");
-    const number = String(ep.number).padStart(2, "0");
-    const code = `S${season}E${number}`;
-
-    const card = document.createElement("div");
-    card.style.width = "250px";
-    card.style.background = "#fff";
-    card.style.padding = "10px";
-    card.style.border = "1px solid #ccc";
-    card.style.borderRadius = "8px";
-    card.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
-    card.style.color = "black";
-
-    card.innerHTML = `
-  <div style="
-    background:#eaeaea;
-    padding:8px;
-    border-radius:6px;
-    font-weight:bold;
-    text-align:center;
-    margin-bottom:10px;
-  ">
-    ${code} — ${ep.name}
-  </div>
-
-  <img src="${ep.image?.medium}" alt="${ep.name}" style="width:100%; border-radius:6px;">
-  <p>${ep.summary}</p>
-  <p><a href="${ep.url}" target="_blank">View on TVMaze</a></p>
-`;
-
-    root.appendChild(card);
+  episodes.forEach((episode) => {
+    const episodeCard = createEpisodeCard(episode);
+    rootEl.appendChild(episodeCard);
   });
-
-  const attribution = document.createElement("p");
-  attribution.innerHTML = `
-    Data originally from 
-    <a href="https://www.tvmaze.com/" target="_blank">TVMaze.com</a>.
-  `;
-  root.appendChild(attribution);
 }
 
-window.onload = setup;
+function createEpisodeCard(episode) {
+  const episodeCode = getEpisodeCode(episode);
+
+  const cardEl = document.createElement("div");
+  cardEl.className = "episode-card";
+
+  const titleEl = document.createElement("h3");
+  titleEl.className = "episode-title";
+  titleEl.textContent = `${episodeCode} - ${episode.name}`;
+
+  const imageEl = document.createElement("img");
+  imageEl.className = "episode-image";
+  imageEl.src = episode.image?.medium || "";
+  imageEl.alt = episode.name;
+
+  const summaryEl = document.createElement("p");
+  summaryEl.className = "episode-summary";
+  summaryEl.innerHTML = episode.summary;
+
+  const linkEl = document.createElement("a");
+  linkEl.className = "episode-link";
+  linkEl.href = episode.url;
+  linkEl.target = "_blank";
+  linkEl.rel = "noopener noreferrer";
+  linkEl.textContent = "View on TVMaze";
+
+  cardEl.appendChild(titleEl);
+  cardEl.appendChild(imageEl);
+  cardEl.appendChild(summaryEl);
+  cardEl.appendChild(linkEl);
+
+  return cardEl;
+}
+
+function getEpisodeCode(episode) {
+  const season = String(episode.season).padStart(2, "0");
+  const number = String(episode.number).padStart(2, "0");
+  return `S${season}E${number}`;
+}
+
+function renderAttribution() {
+  const rootEl = document.getElementById("root");
+
+  const attributionEl = document.createElement("p");
+  attributionEl.className = "attribution";
+  attributionEl.innerHTML =
+    'Data originally from <a href="https://www.tvmaze.com/" target="_blank" rel="noopener noreferrer">TVMaze.com</a>.';
+
+  rootEl.appendChild(attributionEl);
+}
+
+window.addEventListener("load", setup);

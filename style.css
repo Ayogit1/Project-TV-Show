@@ -1,3 +1,51 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #111;
+}
+
 #root {
-  color: red;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.episode-card {
+  width: 250px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.episode-title {
+  background: #eaeaea;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.episode-image {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.episode-summary {
+  margin-top: 10px;
+}
+
+.episode-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.attribution {
+  width: 100%;
+  margin-top: 20px;
 }
