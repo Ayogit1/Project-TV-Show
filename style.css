@@ -1,48 +1,26 @@
-body {
-  margin: 0;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f7f7f7;
-  color: #111;
-}
-
-#root {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.episode-card {
-  width: 250px;
-  background: #fff;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.episode-title {
-  background: #eaeaea;
-  padding: 8px;
-  border-radius: 6px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
-.episode-image {
+.controls {
   width: 100%;
-  border-radius: 6px;
+  margin-bottom: 20px;
 }
 
-.episode-summary {
+.controls label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.controls input,
+.controls select {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px;
+  margin-bottom: 12px;
+}
+
+#episode-count {
+  font-weight: bold;
   margin-top: 10px;
-}
-
-.episode-link {
-  display: inline-block;
-  margin-top: 8px;
+  margin-bottom: 20px;
 }
 
 .attribution {

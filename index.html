@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV Show Project | Kayanat Suleman (KayanatSuleman)</title>
+    <link href="style.css" rel="stylesheet" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TV Show Project | My Name (My GitHub username)</title>
-  <link href="style.css" rel="stylesheet" />
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-</head>
+  <body>
+    <div class="controls">
+      <label for="search-input">Search episodes:</label>
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search by episode name or summary"
+      />
 
-<body>
-  <div id="root">
-  </div>
+      <label for="episode-select">Choose an episode:</label>
+      <select id="episode-select">
+        <option value="all">All Episodes</option>
+      </select>
 
-  <template id="film-card">
-    <div class="film-card">
-      <h3></h3>
-      <p data-director></p>
-      <time></time>
-      <p data-certificate></p>
+      <p id="episode-count"></p>
     </div>
-  </template>
 
-  <div id="films"></div>
+    <div id="root"></div>
 
-  <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-  <script src="episodes.js"></script>
-
-  <!-- Loads YOUR javascript code -->
-  <script src="script.js"></script>
-</body>
-
+    <script src="episodes.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
