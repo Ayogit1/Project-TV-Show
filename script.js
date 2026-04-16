@@ -1,9 +1,11 @@
-const allEpisodes = getAllEpisodes();
+let allEpisodes = [];
+let allShows = [];
+const episodeCache = {};
 
 function setup() {
-  populateEpisodeSelector(allEpisodes);
-  renderEpisodes(allEpisodes);
   setupFiltering();
+  setupShowSelector();
+  loadShows();
 }
 
 function setupFiltering() {
@@ -12,6 +14,91 @@ function setupFiltering() {
 
   searchInput.addEventListener("input", handleFilterChange);
   episodeSelect.addEventListener("change", handleFilterChange);
+}
+
+function setupShowSelector() {
+  const showSelect = document.getElementById("show-select");
+  showSelect.addEventListener("change", handleShowChange);
+}
+
+async function loadShows() {
+  try {
+    allShows = await fetchShows();
+    populateShowSelector(allShows);
+  } catch (error) {
+    console.error("Failed to load shows", error);
+  }
+}
+
+async function fetchShows() {
+  const response = await fetch("https://api.tvmaze.com/shows");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch shows");
+  }
+
+  const shows = await response.json();
+
+  return shows.sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+  );
+}
+
+async function fetchEpisodesForShow(showId) {
+  if (episodeCache[showId]) {
+    return episodeCache[showId];
+  }
+
+  const response = await fetch(`https://api.tvmaze.com/shows/${showId}/episodes`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch episodes");
+  }
+
+  const episodes = await response.json();
+  episodeCache[showId] = episodes;
+
+  return episodes;
+}
+
+function populateShowSelector(shows) {
+  const showSelect = document.getElementById("show-select");
+  showSelect.innerHTML = '<option value="">Select a show</option>';
+
+  shows.forEach((show) => {
+    const optionEl = document.createElement("option");
+    optionEl.value = show.id;
+    optionEl.textContent = show.name;
+    showSelect.appendChild(optionEl);
+  });
+}
+
+async function handleShowChange() {
+  const showSelect = document.getElementById("show-select");
+  const episodeSelect = document.getElementById("episode-select");
+  const searchInput = document.getElementById("search-input");
+
+  const showId = showSelect.value;
+
+  if (!showId) {
+    allEpisodes = [];
+    searchInput.value = "";
+    episodeSelect.innerHTML = '<option value="all">All Episodes</option>';
+    renderEpisodes([]);
+    return;
+  }
+
+  try {
+    allEpisodes = await fetchEpisodesForShow(showId);
+
+    searchInput.value = "";
+    episodeSelect.innerHTML = '<option value="all">All Episodes</option>';
+
+    populateEpisodeSelector(allEpisodes);
+    renderEpisodes(allEpisodes);
+  } catch (error) {
+    console.error("Failed to load episodes", error);
+  }
 }
 
 function handleFilterChange() {
