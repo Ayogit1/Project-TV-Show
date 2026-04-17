@@ -1,3 +1,29 @@
-#root {
-  color: red;
+.controls {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.controls label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.controls input,
+.controls select {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px;
+  margin-bottom: 12px;
+}
+
+#episode-count {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.attribution {
+  width: 100%;
+  margin-top: 20px;
 }
