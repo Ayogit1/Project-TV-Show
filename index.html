@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | Kayanat Suleman (KayanatSuleman)</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  </head>
 
-  <body>
-    <div class="controls">
-      <label for="search-input">Search episodes:</label>
-      <input
-        type="text"
-        id="search-input"
-        placeholder="Search by episode name or summary"
-      />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TV Show Project - Ayo's Level 300</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
 
-      <label for="episode-select">Choose an episode:</label>
-      <select id="episode-select">
-        <option value="all">All Episodes</option>
-      </select>
+<body>
+  <header class="page-header">
+    <h1>TV Show Project | AyoLevel300</h1>
+    <p id="episode-count"></p>
+  </header>
 
-      <p id="episode-count"></p>
-    </div>
+  <div id="search-container" style="padding: 20px; text-align: center;">
+    <input type="text" id="episode-search-input" placeholder="Search episodes..."
+      style="padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #ccc;">
+    <p id="search-count-display" style="margin-top: 10px; font-weight: bold;"></p>
+  </div>
 
+  <main>
     <div id="root"></div>
+  </main>
 
-    <script src="episodes.js"></script>
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
+
 </html>
