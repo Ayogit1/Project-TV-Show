@@ -1,29 +1,85 @@
-.controls {
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #eee;
+}
+
+.page-header {
+  text-align: center;
+  padding: 1rem;
+  background: #fff;
+  border-bottom: 2px solid #007bff;
+}
+
+#search-container {
+  padding: 20px;
+  text-align: center;
+  background: #fff;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 300px;
+  margin: 5px;
+}
+
+#root {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Requirement 2.1: Show Card Layout */
+.show-card {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.show-card img {
   width: 100%;
-  margin-bottom: 20px;
+  height: 250px;
+  object-fit: cover;
 }
 
-.controls label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.show-content {
+  padding: 15px;
+  flex-grow: 1;
 }
 
-.controls input,
-.controls select {
-  width: 100%;
-  max-width: 400px;
-  padding: 8px;
-  margin-bottom: 12px;
+.show-title {
+  color: #007bff;
+  cursor: pointer;
+  margin: 0 0 10px 0;
 }
 
-#episode-count {
-  font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 20px;
+.show-title:hover {
+  text-decoration: underline;
 }
 
-.attribution {
-  width: 100%;
-  margin-top: 20px;
+.show-info-panel {
+  background: #f9f9f9;
+  padding: 10px;
+  font-size: 0.85rem;
+  border-top: 1px solid #eee;
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
