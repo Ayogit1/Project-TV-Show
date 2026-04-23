@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | Kayanat Suleman (KayanatSuleman)</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  </head>
 
-  <body>
-    <div class="controls">
-      <label for="show-select">Choose a show:</label>
-      <select id="show-select">
-        <option value="">Loading shows...</option>
-      </select>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TV Show Project - Ayodeji Ayorinde Level 500</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
 
-      <label for="search-input">Search episodes:</label>
-      <input
-        type="text"
-        id="search-input"
-        placeholder="Search by episode name or summary"
-      />
+<body>
+  <header class="page-header">
+    <h1>TV Show Project | Ayodeji Ayorinde Level 500</h1>
+    <nav>
+      <button id="back-to-shows" class="nav-btn" style="display: none;">&larr; Back to all shows</button>
+    </nav>
+  </header>
 
-      <label for="episode-select">Choose an episode:</label>
-      <select id="episode-select">
-        <option value="all">All Episodes</option>
-      </select>
-
-      <p id="episode-count"></p>
+  <div id="search-container">
+    <div id="show-search-wrapper">
+      <input type="text" id="show-search-input" placeholder="Search shows...">
     </div>
 
-    <div id="root"></div>
+    <div id="episode-controls-wrapper" style="display: none;">
+      <select id="show-selector">
+        <option value="">Select a show...</option>
+      </select>
+      <input type="text" id="episode-search-input" placeholder="Search episodes...">
+    </div>
 
-    <script src="script.js"></script>
-  </body>
+    <p id="search-count-display"></p>
+  </div>
+
+  <main>
+    <div id="root"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
 </html>
