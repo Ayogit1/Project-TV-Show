@@ -1,4 +1,4 @@
-const showCache = {}; // Requirement 7: Cache for episode data
+const showCache = {};
 let allShows = [];
 let currentEpisodes = [];
 
@@ -9,19 +9,22 @@ async function setup() {
   const showSelector = document.getElementById("show-selector");
   const backBtn = document.getElementById("back-to-shows");
 
+  // --- Add Footer (Requirement 1) ---
+  const footer = document.createElement("footer");
+  footer.innerHTML = `Data originally from <a href="https://www.tvmaze.com/" target="_blank">TVMaze.com</a>`;
+  document.body.appendChild(footer);
+
   try {
-    // Requirement 2: Initial Fetch
     const response = await fetch("https://api.tvmaze.com/shows");
     allShows = await response.json();
     allShows.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
-    populateShowSelector();
+    populateShowSelector(); // Initially populates with shows
     renderShows(allShows);
   } catch (err) {
     root.innerHTML = `<p>Error loading: ${err.message}</p>`;
   }
 
-  // Requirement 5: Free-text Show Search
   showSearch.addEventListener("input", (e) => {
     const term = e.target.value.toLowerCase();
     const filtered = allShows.filter(s =>
@@ -33,13 +36,26 @@ async function setup() {
     updateCount(filtered.length, allShows.length, "shows");
   });
 
-  // Requirement 4: Back Navigation
-  backBtn.addEventListener("click", () => renderShows(allShows));
+  backBtn.addEventListener("click", () => {
+    populateShowSelector(); // Switch selector back to shows
+    renderShows(allShows);
+  });
 
-  // Requirement 6: Selector Logic
-  showSelector.addEventListener("change", (e) => loadEpisodes(e.target.value));
+  // --- Updated Selector Logic (Requirement 2) ---
+  showSelector.addEventListener("change", (e) => {
+    const selectedId = e.target.value;
+    const isEpisodeView = document.getElementById("episode-controls-wrapper").style.display === "block";
 
-  // Episode Search
+    if (isEpisodeView) {
+      // If in episode view, the selector behaves as an episode scroller
+      const selectedEp = currentEpisodes.filter(ep => ep.id == selectedId);
+      renderEpisodes(selectedEp);
+    } else {
+      // If in show view, it loads the selected show's episodes
+      loadEpisodes(selectedId);
+    }
+  });
+
   epSearch.addEventListener("input", (e) => {
     const term = e.target.value.toLowerCase();
     const filtered = currentEpisodes.filter(ep =>
@@ -63,7 +79,7 @@ function renderShows(shows) {
     card.innerHTML = `
       <img src="${img}" alt="${show.name}">
       <div class="show-content">
-        <h2 class="show-title">${show.name}</h2>
+        <h2 class="show-title" style="cursor:pointer; color:blue; text-decoration:underline;">${show.name}</h2>
         <div class="summary">${show.summary}</div>
       </div>
       <div class="show-info-panel">
@@ -73,7 +89,6 @@ function renderShows(shows) {
         <p><strong>Runtime:</strong> ${show.runtime} min</p>
       </div>
     `;
-    // Requirement 3: Click title to load episodes
     card.querySelector(".show-title").addEventListener("click", () => loadEpisodes(show.id));
     root.appendChild(card);
   });
@@ -85,9 +100,7 @@ async function loadEpisodes(showId) {
   const url = `https://api.tvmaze.com/shows/${showId}/episodes`;
 
   toggleView("episodes");
-  document.getElementById("show-selector").value = showId;
 
-  // Requirement 7: Never fetch URL more than once
   if (showCache[url]) {
     currentEpisodes = showCache[url];
   } else {
@@ -97,6 +110,8 @@ async function loadEpisodes(showId) {
     showCache[url] = data;
     currentEpisodes = data;
   }
+
+  populateEpisodeSelector(currentEpisodes); // Update dropdown to show episodes
   renderEpisodes(currentEpisodes);
 }
 
@@ -135,12 +150,27 @@ function toggleView(view) {
   }
 }
 
+// Requirement 2: Populates selector with shows
 function populateShowSelector() {
   const selector = document.getElementById("show-selector");
+  selector.innerHTML = '<option value="">Select a Show...</option>';
   allShows.forEach(s => {
     const opt = document.createElement("option");
     opt.value = s.id;
     opt.textContent = s.name;
+    selector.appendChild(opt);
+  });
+}
+
+// Requirement 2: Populates selector with episodes when in episode view
+function populateEpisodeSelector(episodes) {
+  const selector = document.getElementById("show-selector");
+  selector.innerHTML = '<option value="">All Episodes</option>';
+  episodes.forEach(ep => {
+    const code = `S${String(ep.season).padStart(2, '0')}E${String(ep.number).padStart(2, '0')}`;
+    const opt = document.createElement("option");
+    opt.value = ep.id;
+    opt.textContent = `${code} - ${ep.name}`;
     selector.appendChild(opt);
   });
 }
